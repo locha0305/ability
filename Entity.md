@@ -23,3 +23,4 @@ Entity에서 특정 skill을 부여 해제합니다
 리스트에는 차례로 [x, y, hp, mp]의 데이터가 들어갑니다
 
 
+- self.max
