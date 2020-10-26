@@ -16,11 +16,10 @@ Entity에서 특정 skill을 부여 해제합니다
 
 # Entity variables
 
-- self.position
+- self.max_hp
 
-같은 Entity 오브젝트에 있는 Entity들의 위치가 있는 리스트입니다
+Entity의 최대 채력
 
-리스트에는 차례로 [x, y, hp, mp]의 데이터가 들어갑니다
+- self.max_mp
 
-
-- self.max
+Entity의 최대 mp
