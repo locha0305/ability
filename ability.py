@@ -77,3 +77,5 @@ class Entity():
             else:
                 self.skill_cooltime[skill_index] = 0
             
+    def draw(self, screen):
+        screen.blit(self.image, (self.x, self.y))
