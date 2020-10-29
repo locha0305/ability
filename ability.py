@@ -40,6 +40,30 @@ class Entity():
         self.hitbox = self.image.get_rect()
         self.hitbox.left = self.x
         self.hitbox.top = self.y
+
+        entity_hitbox = entity_name.image.get_rect()
+        entity_hitbox.left = entity_name.x
+        entity_hitbox.top = entity_name.y
+
+        if self.hitbox.colliderect(entity_hitbox):
+            return True
+        else:
+            return False
+    def collide_projectile(self, projectile_name):
+        self.hitbox = self.image.get_rect()
+        self.hitbox.left = self.x
+        self.hitbox.top = self.y
+        for positions in projectile_name.position:
+            projectile_x = positions[0]
+            projectile_y = positions[1]
+            projectile_hitbox = projectile_name.image.get_rect()
+            projectile_hitbox.left = projectile_x
+            projectile_hitbox.top = projectile_y
+            if self.hitbox.colliderect(projectile_hitbox):
+                return True
+            else:
+                pass
+        return False
     def use_skill(self, skill_name):
         skill_index = self.skill_name.index(skill_name)
         skill_name.active()
@@ -52,3 +76,4 @@ class Entity():
                 self.skill_cooltime[skill_index] -= fps
             else:
                 self.skill_cooltime[skill_index] = 0
+            
