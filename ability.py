@@ -12,6 +12,7 @@ class Entity():
         self.y = summon_y
         self.dx = 0
         self.dy = 0
+        self.dir = None
         self.hp = max_hp
         self.mp = max_mp
         self.image = pygame.image.load(image)
@@ -76,6 +77,37 @@ class Entity():
                 self.skill_cooltime[skill_index] -= fps
             else:
                 self.skill_cooltime[skill_index] = 0
-            
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
+        
+        
+
+class Projectile():
+    def __init__(self, image):
+        self.image = pygame.image.load(image)
+        self.position = []
+        self.dx = 0
+        self.dy = 0
+    def add(self, x_pos, y_pos, Dir):
+        self.position.append([x_pos, y_pos, Dir])
+    def destory(self, projectile_index):
+        del self.position[projectile_index]
+    def goto(self, projectile_index, x_pos, y_pos):
+        self.position[projectile_index][0] = x_pos
+        self.position[projectile_index][1] = y_pos
+    def advance(self):
+        for position_index in range(0, len(self.position)):
+            Dir = self.position[position_index][2]
+            if Dir == 1:
+                self.position[position_index][0] += self.dx
+                self.position[position_index][1] += self.dy
+            else:
+                self.position[position_index][0] -= self.dx
+                self.position[position_index][1] -= self.dy
+            
+    def draw(self, screen):
+        for positions in self.position:
+            x_pos = positions[0]
+            y_pos = positions[1]
+
+            screen.blit(self.image, (x_pos, y_pos))
