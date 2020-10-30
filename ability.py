@@ -33,7 +33,7 @@ class Entity():
         self.skill_max_cooltime.append(skill_name.cooltime)
     def detach(self, skill_name):
         skill_index = self.skill_name.index(skill_name)
-        del self.skill_name[skill_index]
+        del self.skill[skill_index]
         del self.skill_mp[skill_index]
         del self.skill_cooltime[skill_index]
         del self.skill_max_cooltime[skill_index]
@@ -66,10 +66,13 @@ class Entity():
                 pass
         return False
     def use_skill(self, skill_name):
-        skill_index = self.skill_name.index(skill_name)
-        skill_name.active()
-        self.mp -= skill_name.mp
-        self.skill_cooltime[skill_index] = self.skill_max_cooltime[skill_index]
+        skill_index = self.skill.index(skill_name)
+        if self.mp - skill_name.mp >= 0 and self.skill_cooltime[skill_index] == 0:
+            skill_name.active(self)
+            self.mp -= skill_name.mp
+            self.skill_cooltime[skill_index] = self.skill_max_cooltime[skill_index]
+        else:
+            pass
     def active_cooltime_tick(self):
         for skill_index in range(0, len(self.skill_cooltime)):
             cooltime = self.skill_cooltime[skill_index]
@@ -111,3 +114,29 @@ class Projectile():
             y_pos = positions[1]
 
             screen.blit(self.image, (x_pos, y_pos))
+            
+class Skill():
+    def __init__(self):
+        pass
+
+
+
+
+
+class t_Entity():
+    def __init__(self):
+        self.Entities = []
+    def add(self, Entity_name):
+        self.Entities.append(Entity_name)
+    def destory(self, Entity_name):
+        Entity_index = self.Entities.index(Entity_name)
+        del self.Entities[Entity_index]
+    def advance(self):
+        for Entities in self.Entities:
+            Entities.advance()
+    def active_cooltime_tick(self):
+        for Entities in self.Entities:
+            Entities.active_cooltime_tick()
+    def draw(self, screen):
+        for Entities in self.Entities:
+            Entities.draw(screen)
