@@ -31,6 +31,11 @@ class Entity():
         self.skill.append(skill_name)
         self.skill_cooltime.append(skill_name.cooltime)
         self.skill_max_cooltime.append(skill_name.cooltime)
+        print("{}: {}".format(self.skill.index(skill_name) + 1, skill_name.name))
+        print("===================")
+        print("mp :{}, cooltime: {}초\n".format(skill_name.mp, skill_name.cooltime / 1000))
+        print(skill_name.description)
+        print("===================\n")
     def detach(self, skill_name):
         skill_index = self.skill_name.index(skill_name)
         del self.skill[skill_index]
@@ -120,9 +125,6 @@ class Skill():
         pass
 
 
-
-
-
 class t_Entity():
     def __init__(self):
         self.Entities = []
@@ -140,3 +142,23 @@ class t_Entity():
     def draw(self, screen):
         for Entities in self.Entities:
             Entities.draw(screen)
+        
+        
+class t_Projectile():
+    def __init__(self):
+        self.Projectiles = []
+    def add(self, Projectile_name):
+        self.Projectiles.append(Projectile_name)
+    def destory(self, Projectile_name):
+        Projectile_index = self.Projectiles.index(Projectile_name)
+        del self.Projectiles[Projectile_index]
+    def advance(self):
+        for Projectiles in self.Projectiles:
+            Projectiles.advance()
+    def draw(self, screen):
+        for Projectiles in self.Projectiles:
+            Projectiles.draw(screen)
+    
+    
+        
+
