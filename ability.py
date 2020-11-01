@@ -5,9 +5,31 @@ def set_fps(Fps):
     global fps
     fps = Fps
 
+def mainloop(All_Entity, All_Projectile, screen):
+    global fps
+    for Entities in All_Entity:
+        if Entities.hp <= 0:
+            if Entities in All_Entity:
+                All_Entity.destory(Entities)
+            else:
+                pass
+        else:
+            pass
+
+    All_Entity.draw(screen)
+    All_Projectile.draw(screen)
+
+    All_Entity.advance()
+    All_Projectile.advance()
+
+    All_Entity.active_cooltime_tick()
+
+    pygame.display.update()
+
+
 class Entity():
     global fps
-    def __init__(self, summon_x, summon_y, max_hp, max_mp, image):
+    def __init__(self, summon_x, summon_y, max_hp, max_mp, image, All_Entity):
         self.x = summon_x
         self.y = summon_y
         self.dx = 0
@@ -21,6 +43,7 @@ class Entity():
         self.skill_mp = []
         self.skill_cooltime = []
         self.skill_max_cooltime = []
+        All_Entity.add(self)
     def goto(self, x_pos, y_pos):
         self.x = x_pos
         self.y = y_pos
@@ -91,11 +114,12 @@ class Entity():
         
 
 class Projectile():
-    def __init__(self, image):
+    def __init__(self, image, All_Projectile):
         self.image = pygame.image.load(image)
         self.position = []
         self.dx = 0
         self.dy = 0
+        All_Projectile.add(self)
     def add(self, x_pos, y_pos, Dir):
         self.position.append([x_pos, y_pos, Dir])
     def destory(self, projectile_index):
@@ -161,4 +185,3 @@ class t_Projectile():
     
     
         
-
