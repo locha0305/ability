@@ -5,11 +5,12 @@ def set_fps(Fps):
     global fps
     fps = Fps
 
-def mainloop(All_Entity, All_Projectile, screen):
+def mainloop(All_Entity, All_Projectile, screen, x_pos, y_pos):
     global fps
-    for Entities in All_Entity:
+    for Entities in All_Entity.Entities:
         if Entities.hp <= 0:
-            if Entities in All_Entity:
+            if Entities in All_Entity.Entities:
+                Entities.goto(x_pos, y_pos)
                 All_Entity.destory(Entities)
             else:
                 pass
@@ -89,9 +90,9 @@ class Entity():
             projectile_hitbox.left = projectile_x
             projectile_hitbox.top = projectile_y
             if self.hitbox.colliderect(projectile_hitbox):
+                if not(projectile_name.Is_Penetrate):
+                    projectile_name.destroy(projectile_name.position.index(positions))
                 return True
-            else:
-                pass
         return False
     def use_skill(self, skill_name):
         skill_index = self.skill.index(skill_name)
@@ -114,15 +115,17 @@ class Entity():
         
 
 class Projectile():
-    def __init__(self, image, All_Projectile):
+    def __init__(self, image, All_Projectile, Is_Penetrate, Damage):
         self.image = pygame.image.load(image)
         self.position = []
         self.dx = 0
         self.dy = 0
+        self.Is_Penetrate = Is_Penetrate
+        self.dmg = Damage
         All_Projectile.add(self)
     def add(self, x_pos, y_pos, Dir):
         self.position.append([x_pos, y_pos, Dir])
-    def destory(self, projectile_index):
+    def destroy(self, projectile_index):
         del self.position[projectile_index]
     def goto(self, projectile_index, x_pos, y_pos):
         self.position[projectile_index][0] = x_pos
@@ -135,7 +138,7 @@ class Projectile():
                 self.position[position_index][1] += self.dy
             else:
                 self.position[position_index][0] -= self.dx
-                self.position[position_index][1] -= self.dy
+                self.position[position_index][1] += self.dy
             
     def draw(self, screen):
         for positions in self.position:
